@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Ares — Mechanical Engineer &amp; ML Researcher</title>
+  <meta name="description" content="Ares — Mechanical Engineering at Ohio State. Self-hosted machine learning research, robotics, and hands-on engineering builds." />
+
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Ares — Mechanical Engineer &amp; ML Researcher" />
+  <meta property="og:description" content="Mechanical Engineering at Ohio State. Self-hosted machine learning research, robotics, and hands-on engineering builds." />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%231d1d1f'/%3E%3Ctext x='32' y='45' font-family='-apple-system,Helvetica,sans-serif' font-size='36' font-weight='600' fill='%23ffffff' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+
+  <!-- Set theme before first paint to avoid a flash of the wrong surface. -->
+  <script>
+    (function () {
+      try {
+        var mode = localStorage.getItem("theme") || "auto";
+        var dark = mode === "dark" || (mode === "auto" &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches);
+        document.documentElement.classList.toggle("theme-dark", dark);
+        document.documentElement.dataset.theme = mode;
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="stylesheet" href="styles.css" />
+  <noscript><style>.reveal{opacity:1 !important;transform:none !important}</style></noscript>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#top" aria-label="Ares — home">
+        <span class="brand-mark" aria-hidden="true">A</span>
+        <span class="brand-name">Ares</span>
+      </a>
+
+      <nav class="nav-links" id="navLinks" aria-label="Primary">
+        <a href="#about">About</a>
+        <a href="#research">Research</a>
+        <a href="#builds">Builds</a>
+        <a href="#interests">Interests</a>
+        <a href="gallery.html">Life &amp; Travel</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="icon-btn theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="4.2"/>
+            <g class="sun-rays"><path d="M12 2.4v2.6M12 19v2.6M4.8 4.8l1.9 1.9M17.3 17.3l1.9 1.9M2.4 12h2.6M19 12h2.6M4.8 19.2l1.9-1.9M17.3 6.7l1.9-1.9"/></g>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M20 14.4A8.4 8.4 0 1 1 9.6 4a6.9 6.9 0 0 0 10.4 10.4Z"/>
+          </svg>
+        </button>
+
+        <button class="nav-toggle" id="navToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navLinks">
+          <span aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="nav-scrim" id="navScrim" hidden></div>
+
+  <main id="main">
+    <span id="top" class="anchor"></span>
+
+    <!-- HERO -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-visual" id="heroVisual" aria-hidden="true">
+        <span class="hero-glow"></span>
+        <span class="hero-grid"></span>
+        <span class="hero-noise"></span>
+      </div>
+
+      <div class="hero-inner">
+        <p class="kicker reveal">Mechanical Engineering · Machine Learning</p>
+        <h1 id="hero-title" class="reveal" style="--d:.08s">Ares builds<br />machines that <em>think</em>.</h1>
+        <p class="lede reveal" style="--d:.16s">Mechanical Engineering sophomore at Ohio State, running machine learning research on self-hosted hardware — and giving models bodies to live in, from robot arms to long-range e-bikes.</p>
+        <div class="hero-actions reveal" style="--d:.24s">
+          <a class="btn primary" href="#research">See the research</a>
+          <a class="btn ghost" href="#builds">See the builds</a>
+        </div>
+      </div>
+
+      <a class="scroll-cue reveal" style="--d:.4s" href="#about" aria-label="Scroll down"><span aria-hidden="true"></span></a>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section" aria-labelledby="about-title">
+      <p class="section-label reveal">About</p>
+      <h2 id="about-title" class="statement reveal">Engineer first.<br />Researcher by obsession.</h2>
+      <div class="two-col">
+        <p class="reveal">I study Mechanical Engineering at Ohio State. Outside the classroom, I run my own ML research on self-hosted hardware — no cloud bills, no idle GPUs. Everything is designed, measured, and validated before anything gets built.</p>
+        <p class="reveal" style="--d:.1s">My work lives where hands-on engineering meets machine learning: efficient model architectures for the edge, rigorous benchmarking, and physical platforms — arms, bikes — that give models something to inhabit.</p>
+      </div>
+      <ul class="tags reveal">
+        <li>Python</li><li>PyTorch</li><li>Edge AI</li><li>Robotics</li><li>Unity / C#</li><li>CAD &amp; fabrication</li><li>English</li><li>中文</li>
+      </ul>
+    </section>
+
+    <!-- RESEARCH -->
+    <section id="research" class="section" aria-labelledby="research-title">
+      <p class="section-label reveal">Research</p>
+      <h2 id="research-title" class="reveal">Questions I'm chasing.</h2>
+      <p class="section-sub reveal">High-level directions only — details stay under wraps until publication.</p>
+      <div class="rows">
+        <article class="row reveal">
+          <div class="row-index" aria-hidden="true">01</div>
+          <div>
+            <h3>System-Prompt Persona Conditioning and Capability Degradation in Small-Scale LLMs</h3>
+            <p class="row-meta">Research Assistant · Machine Learning Systems Lab · Feb 2026 – Present</p>
+            <p>Do system-prompt personas degrade small-model benchmark accuracy? Measuring which benchmark families are most sensitive, and testing mitigation via instruction constraints and calibrated decoding.</p>
+          </div>
+        </article>
+        <article class="row reveal" style="--d:.08s">
+          <div class="row-index" aria-hidden="true">02</div>
+          <div>
+            <h3>Sparse Mixture-of-Experts Language Models for GPU-Free Edge Deployment</h3>
+            <p class="row-meta">Research Assistant · Edge Computing Research Group · Mar 2026 – Present</p>
+            <p>Sparse mixture-of-experts built for GPU-free hardware: expert specialization under extreme parameter efficiency, routing tuned for deterministic latency.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- BUILDS (dark) -->
+    <section id="builds" class="section dark" aria-labelledby="builds-title">
+      <div class="section-inner">
+        <p class="section-label reveal">Builds</p>
+        <h2 id="builds-title" class="reveal">Things with moving parts.</h2>
+        <div class="cards">
+          <article class="card reveal">
+            <div class="card-visual g1" aria-hidden="true"></div>
+            <p class="card-kicker">In progress</p>
+            <h3>6-DOF robot arm</h3>
+            <p>A desktop six-axis arm as an embodied benchmark for edge AI — simulation first, then hardware.</p>
+          </article>
+          <article class="card reveal" style="--d:.08s">
+            <div class="card-visual g2" aria-hidden="true"></div>
+            <p class="card-kicker">Design phase</p>
+            <h3>Long-range DIY e-bike</h3>
+            <p>A max-efficiency build for a 600&nbsp;km ride — with a self-designed power strategy: legs as the engine, motor as the assist.</p>
+          </article>
+          <article class="card reveal" style="--d:.16s">
+            <div class="card-visual g4" aria-hidden="true"></div>
+            <p class="card-kicker">Self-hosted</p>
+            <h3>VTuber &amp; assistant stack</h3>
+            <p>A persona model wired into an open VTuber rig, plus a self-hosted messaging assistant.</p>
+          </article>
+          <article class="card reveal" style="--d:.24s">
+            <div class="card-visual g5" aria-hidden="true"></div>
+            <p class="card-kicker">Now building</p>
+            <h3>Phone lens system</h3>
+            <p>A bayonet-mount optical system for iPhone 16 Pro — telephoto extender, 0.7&times; speed module, filter station. External attachments only.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERESTS -->
+    <section id="interests" class="section" aria-labelledby="interests-title">
+      <p class="section-label reveal">Off the bench</p>
+      <h2 id="interests-title" class="reveal">Fuel for the work.</h2>
+      <ul class="interest-grid">
+        <li class="reveal"><h3>F1</h3><p>Race strategy, energy deployment, and the engineering under the spectacle.</p></li>
+        <li class="reveal" style="--d:.08s"><h3>Soccer</h3><p>Player and watcher — the original multi-agent system.</p></li>
+        <li class="reveal" style="--d:.16s"><h3>Music</h3><p>Classic and pop, Mandopop to musical theater.</p></li>
+        <li class="reveal" style="--d:.24s"><h3>Design</h3><p>Aircraft, cars, rockets, everyday tools — if it moves, it's interesting.</p></li>
+      </ul>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section cta" aria-labelledby="contact-title">
+      <p class="section-label reveal">Contact</p>
+      <h2 id="contact-title" class="reveal">Let's build something.</h2>
+      <p class="lede reveal">Open to research collaboration, engineering projects, and conversations about efficient AI.</p>
+      <div class="contact-links reveal">
+        <a class="btn primary" href="mailto:zhang.16040@osu.edu">Get in touch</a>
+        <a class="btn ghost" href="https://www.linkedin.com/in/aresyujiezhang" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>© <span id="year">2026</span> Ares</span>
+    <span>Designed &amp; built from scratch</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

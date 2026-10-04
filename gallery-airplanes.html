@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Above the Clouds — Life &amp; Travel — Ares</title>
+  <meta name="description" content="Flying has been humanity’s dream for ages. Now iron birds carry us fast and high — and the sky reveals a miraculous world, utterly different from the land, calling us back up again and again. Above the clouds, the world goes quiet, and everything ordinary looks brand new. — featured photographs by Ares, shot on iPhone 16 Pro." />
+
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Above the Clouds — Life & Travel — Ares" />
+  <meta property="og:description" content="Flying has been humanity’s dream for ages. Now iron birds carry us fast and high — and the sky reveals a miraculous world, utterly different from the land, calling us back up again and again. Above the clouds, the world goes quiet, and everything ordinary looks brand new." />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%231d1d1f'/%3E%3Ctext x='32' y='45' font-family='-apple-system,Helvetica,sans-serif' font-size='36' font-weight='600' fill='%23ffffff' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+
+  <!-- Set theme before first paint to avoid a flash of the wrong surface. -->
+  <script>
+    (function () {
+      try {
+        var mode = localStorage.getItem("theme") || "auto";
+        var dark = mode === "dark" ||
+          (mode === "auto" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+        document.documentElement.classList.toggle("theme-dark", dark);
+        document.documentElement.dataset.theme = mode;
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="stylesheet" href="styles.css" />
+  <noscript><style>.reveal{opacity:1 !important;transform:none !important}</style></noscript>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="brand" href="index.html" aria-label="Ares — home">
+        <span class="brand-mark" aria-hidden="true">A</span>
+        <span class="brand-name">Ares</span>
+      </a>
+
+      <nav class="nav-links" id="navLinks" aria-label="Primary">
+        <a href="index.html#about">About</a>
+        <a href="index.html#research">Research</a>
+        <a href="index.html#builds">Builds</a>
+        <a href="index.html#interests">Interests</a>
+        <a href="gallery.html" class="active" aria-current="page">Life &amp; Travel</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="icon-btn theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="4.2"/>
+            <g class="sun-rays"><path d="M12 2.4v2.6M12 19v2.6M4.8 4.8l1.9 1.9M17.3 17.3l1.9 1.9M2.4 12h2.6M19 12h2.6M4.8 19.2l1.9-1.9M17.3 6.7l1.9-1.9"/></g>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M20 14.4A8.4 8.4 0 1 1 9.6 4a6.9 6.9 0 0 0 10.4 10.4Z"/>
+          </svg>
+        </button>
+
+        <button class="nav-toggle" id="navToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navLinks">
+          <span aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="nav-scrim" id="navScrim" hidden></div>
+
+  <main id="main">
+    <section class="section" aria-labelledby="gallery-title" style="padding-top: calc(var(--nav-h) + 84px); padding-bottom: 72px;">
+      <p class="section-label reveal"><a class="back-link" href="gallery.html">&larr; All collections</a></p>
+      <h2 id="gallery-title" class="statement reveal">Above the Clouds.</h2>
+      <p class="lede reveal" style="--d:.1s">Flying has been humanity’s dream for ages. Now iron birds carry us fast and high — and the sky reveals a miraculous world, utterly different from the land, calling us back up again and again. Above the clouds, the world goes quiet, and everything ordinary looks brand new.</p>
+      <p class="gallery-credit reveal" style="--d:.18s">9 photographs &middot; Shot on iPhone&nbsp;16&nbsp;Pro by Ares.</p>
+    </section>
+
+    <section class="room" aria-label="Photograph collection">
+      <div class="room-inner" id="galleryRoom"></div>
+      <p class="room-empty reveal" id="galleryEmpty">The gallery is still being curated — photos land here as they're shot.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>© <span id="year">2026</span> Ares</span>
+    <span>Designed &amp; built from scratch</span>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    /* Gallery data: drop photos into the "photos/" folder and add entries here.
+       Each entry: { src: "photos/file.jpg", alt: "short description", caption: "optional caption" } */
+    var GALLERY = [
+      { src: "photos/25-08-10-07-28-49-0070.jpg", alt: "Photograph by Ares, 10 August 2025", caption: "10 Aug 2025" },
+      { src: "photos/25-12-20-03-36-00-5085.jpg", alt: "Photograph by Ares, 20 December 2025", caption: "20 Dec 2025" },
+      { src: "photos/26-05-08-05-55-23-6027.jpg", alt: "Photograph by Ares, 08 May 2026", caption: "08 May 2026" },
+      { src: "photos/26-07-14-23-52-57-6507.jpg", alt: "Photograph by Ares, 14 July 2026", caption: "14 Jul 2026" },
+      { src: "photos/26-08-08-05-29-58-7130.jpg", alt: "Photograph by Ares, 08 August 2026", caption: "08 Aug 2026" },
+      { src: "photos/26-08-16-12-28-11-7195.jpg", alt: "Photograph by Ares, 16 August 2026", caption: "16 Aug 2026" },
+      { src: "photos/26-09-24-21-30-56-20260924.jpg", alt: "Photograph by Ares, 24 September 2026", caption: "24 Sep 2026" },
+      { src: "photos/26-09-25-21-35-47-7401.jpg", alt: "Photograph by Ares, 25 September 2026", caption: "25 Sep 2026" },
+      { src: "photos/26-09-26-23-23-08-20260926.jpg", alt: "Photograph by Ares, 26 September 2026", caption: "26 Sep 2026" },
+    ];
+
+    (function () {
+      var room = document.getElementById("galleryRoom");
+      var empty = document.getElementById("galleryEmpty");
+      if (!room) return;
+      if (!GALLERY.length) return; // empty state stays visible
+
+      empty.hidden = true;
+      GALLERY.forEach(function (g, i) {
+        var fig = document.createElement("figure");
+        fig.className = "room-figure reveal";
+        var img = document.createElement("img");
+        img.src = g.src;
+        img.alt = g.alt || "";
+        img.loading = "lazy";
+        img.decoding = "async";
+        fig.appendChild(img);
+        var cap = document.createElement("figcaption");
+        cap.className = "room-cap";
+        var num = document.createElement("span");
+        num.className = "room-num";
+        num.textContent = String(i + 1).padStart(2, "0") + " / " + GALLERY.length;
+        var txt = document.createElement("p");
+        txt.textContent = g.caption || "";
+        cap.appendChild(num);
+        cap.appendChild(txt);
+        fig.appendChild(cap);
+        room.appendChild(fig);
+      });
+
+      // These nodes were added after the main reveal pass — observe them here.
+      if ("IntersectionObserver" in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              io.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.08 });
+        room.querySelectorAll(".reveal").forEach(function (el) { io.observe(el); });
+      } else {
+        room.querySelectorAll(".reveal").forEach(function (el) { el.classList.add("visible"); });
+      }
+
+      /* Lightbox: click a photo to view it large. */
+      var lb = document.createElement("div");
+      lb.className = "lightbox";
+      lb.setAttribute("role", "dialog");
+      lb.setAttribute("aria-label", "Photo viewer");
+      lb.innerHTML =
+        '<button class="lb-btn lb-close" type="button" aria-label="Close">\u00d7</button>' +
+        '<button class="lb-btn lb-prev" type="button" aria-label="Previous photo">\u2039</button>' +
+        '<figure><img alt=""><figcaption></figcaption></figure>' +
+        '<button class="lb-btn lb-next" type="button" aria-label="Next photo">\u203a</button>';
+      document.body.appendChild(lb);
+      var lbImg = lb.querySelector("img");
+      var lbCap = lb.querySelector("figcaption");
+      var lbIndex = 0;
+      function lbShow(i) {
+        lbIndex = (i + GALLERY.length) % GALLERY.length;
+        lbImg.src = GALLERY[lbIndex].src;
+        lbImg.alt = GALLERY[lbIndex].alt;
+        lbCap.textContent = GALLERY[lbIndex].caption || "";
+      }
+      function lbOpen(i) {
+        lbShow(i);
+        lb.classList.add("open");
+        document.body.style.overflow = "hidden";
+      }
+      function lbClose() {
+        lb.classList.remove("open");
+        document.body.style.overflow = "";
+      }
+      room.addEventListener("click", function (e) {
+        var fig = e.target.closest(".room-figure");
+        if (!fig) return;
+        lbOpen(Array.prototype.indexOf.call(room.children, fig));
+      });
+      lb.querySelector(".lb-close").addEventListener("click", lbClose);
+      lb.querySelector(".lb-prev").addEventListener("click", function (e) { e.stopPropagation(); lbShow(lbIndex - 1); });
+      lb.querySelector(".lb-next").addEventListener("click", function (e) { e.stopPropagation(); lbShow(lbIndex + 1); });
+      lb.addEventListener("click", function (e) { if (e.target === lb) lbClose(); });
+      document.addEventListener("keydown", function (e) {
+        if (!lb.classList.contains("open")) return;
+        if (e.key === "Escape") lbClose();
+        else if (e.key === "ArrowLeft") lbShow(lbIndex - 1);
+        else if (e.key === "ArrowRight") lbShow(lbIndex + 1);
+      });
+    })();
+  </script>
+</body>
+</html>
