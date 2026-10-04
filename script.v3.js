@@ -221,4 +221,37 @@
    * ------------------------------------------------------------------ */
   var year = document.getElementById("year");
   if (year) year.textContent = String(new Date().getFullYear());
+
+  /* ------------------------------------------------------------------ *
+   * Hash-free section navigation: the address bar stays clean.
+   * Section clicks smooth-scroll without adding #hash to the URL.
+   * Deep links (site.com/#about) still land on the section, then the
+   * hash is quietly removed.
+   * ------------------------------------------------------------------ */
+  document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+    var id = a.getAttribute("href").slice(1);
+    if (!id || !document.getElementById(id)) return;
+    a.addEventListener("click", function (e) {
+      // Let modified clicks (new tab etc.) behave natively.
+      if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      document.getElementById(id).scrollIntoView(
+        reduceMotion.matches ? { block: "start" } : { behavior: "smooth", block: "start" }
+      );
+    });
+  });
+
+  // A hash arrived via deep link: let the native jump land, then clean it.
+  if (window.location.hash) {
+    var deepEl = document.getElementById(window.location.hash.slice(1));
+    if (deepEl) {
+      window.addEventListener("load", function () {
+        setTimeout(function () {
+          try {
+            history.replaceState(null, "", window.location.pathname + window.location.search);
+          } catch (err) {}
+        }, 80);
+      });
+    }
+  }
 })();
