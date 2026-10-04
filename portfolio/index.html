@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Portfolio — Ares</title>
+  <meta name="description" content="More about Ares — Mechanical Engineering student at Ohio State, machine learning researcher, builder, and photographer. Open to collaboration and conversations." />
+
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Portfolio — Ares" />
+  <meta property="og:description" content="More about Ares — engineer, researcher, builder, photographer." />
+  <meta property="og:image" content="/photos/ares-portrait.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%231d1d1f'/%3E%3Ctext x='32' y='45' font-family='-apple-system,Helvetica,sans-serif' font-size='36' font-weight='600' fill='%23ffffff' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+
+  <!-- Set theme before first paint to avoid a flash of the wrong surface. -->
+  <script>
+    (function () {
+      try {
+        var mode = localStorage.getItem("theme") || "auto";
+        var dark = mode === "dark" ||
+          (mode === "auto" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+        document.documentElement.classList.toggle("theme-dark", dark);
+        document.documentElement.dataset.theme = mode;
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="stylesheet" href="/styles.v3.css" />
+  <noscript><style>.reveal{opacity:1 !important;transform:none !important}</style></noscript>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="brand" href="/" aria-label="Ares — home">
+        <span class="brand-mark" aria-hidden="true">A</span>
+        <span class="brand-name">Ares</span>
+      </a>
+
+      <nav class="nav-links" id="navLinks" aria-label="Primary">
+        <a href="/#about">About</a>
+        <a href="/#research">Research</a>
+        <a href="/#builds">Builds</a>
+        <a href="/#interests">Interests</a>
+        <a href="/gallery/">Life &amp; Travel</a>
+        <a href="/portfolio/" class="active" aria-current="page">Portfolio</a>
+        <a href="/#contact">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="icon-btn theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="4.2"/>
+            <g class="sun-rays"><path d="M12 2.4v2.6M12 19v2.6M4.8 4.8l1.9 1.9M17.3 17.3l1.9 1.9M2.4 12h2.6M19 12h2.6M4.8 19.2l1.9-1.9M17.3 6.7l1.9-1.9"/></g>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M20 14.4A8.4 8.4 0 1 1 9.6 4a6.9 6.9 0 0 0 10.4 10.4Z"/>
+          </svg>
+        </button>
+
+        <button class="nav-toggle" id="navToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navLinks">
+          <span aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="nav-scrim" id="navScrim" hidden></div>
+
+  <main id="main">
+    <span id="top" class="anchor"></span>
+
+    <!-- PORTFOLIO -->
+    <section class="section" aria-labelledby="portfolio-title" style="padding-top: calc(var(--nav-h) + 84px);">
+      <p class="section-label reveal">Portfolio</p>
+      <h1 id="portfolio-title" class="statement reveal">The person<br />behind the builds.</h1>
+
+      <div class="portfolio-grid">
+        <div class="portfolio-photo reveal">
+          <img src="/photos/ares-portrait.jpg" alt="Portrait of Ares" fetchpriority="high" decoding="async" />
+        </div>
+        <div class="portfolio-bio">
+          <p class="reveal">I'm a Mechanical Engineering student at Ohio State University. My days split between coursework and a self-hosted machine learning lab — I run my own ML research on hardware I own and operate. No cloud bills, no idle GPUs.</p>
+          <p class="reveal" style="--d:.08s">I build physical things: a 6-DOF robot arm, a long-range DIY e-bike, a VTuber and assistant stack, and most recently a modular phone lens system for my iPhone 16 Pro. Everything is designed, measured, and validated before it gets built.</p>
+          <p class="reveal" style="--d:.16s">Outside engineering I shoot photography — coastlines, wildlife, cities, skies — which you'll find in <a href="/gallery/">Life &amp; Travel</a>. I follow F1 and soccer, I cycle, and I listen to far too much music.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- OPEN TO -->
+    <section class="section" aria-labelledby="open-title">
+      <p class="section-label reveal">Open to</p>
+      <h2 id="open-title" class="statement reveal">Let's talk,<br />let's build.</h2>
+      <div class="portfolio-bio" style="max-width: 720px;">
+        <p class="reveal">I'm always open to conversations and collaborations — especially around efficient machine learning and edge AI, robotics and embodied systems, or ambitious hands-on builds. Whether it's a research idea, a build project, or just trading notes on photography and F1, my inbox is open.</p>
+      </div>
+      <div class="contact-links reveal">
+        <a class="btn primary" href="mailto:zhang.16040@osu.edu">zhang.16040@osu.edu</a>
+        <a class="btn ghost" href="https://www.instagram.com/aresyujie" target="_blank" rel="noopener">Instagram</a>
+        <a class="btn ghost" href="https://www.linkedin.com/in/aresyujiezhang" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>© <span id="year">2026</span> Ares</span>
+    <span>Designed &amp; built from scratch</span>
+  </footer>
+
+  <script src="/script.v3.js"></script>
+
+</body>
+</html>
