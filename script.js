@@ -154,6 +154,24 @@
   var heroCue = document.querySelector(".scroll-cue");
 
   /* ------------------------------------------------------------------ *
+   * Back-to-top button (injected, so every page gets it)
+   * ------------------------------------------------------------------ */
+  var toTop = document.createElement("button");
+  toTop.id = "toTop";
+  toTop.type = "button";
+  toTop.setAttribute("aria-label", "Back to top");
+  toTop.innerHTML = "<svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 19V5\"/><path d=\"M5 12l7-7 7 7\"/></svg>";
+  document.body.appendChild(toTop);
+
+  toTop.addEventListener("click", function () {
+    if (reduceMotion.matches) {
+      window.scrollTo(0, 0);
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  });
+
+  /* ------------------------------------------------------------------ *
    * One rAF-throttled scroll loop for everything above
    * ------------------------------------------------------------------ */
   var ticking = false;
@@ -163,6 +181,8 @@
     var y = window.scrollY || window.pageYOffset;
 
     if (nav) nav.classList.toggle("scrolled", y > 8);
+
+    toTop.classList.toggle("show", y > 600);
 
     var id = currentId();
     links.forEach(function (l) {
