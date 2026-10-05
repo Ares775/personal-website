@@ -56,6 +56,7 @@
       user-select: none; -webkit-user-select: none;
     }
     .key:active { transform: scale(.93); background: var(--accent); color: #fff; border-color: transparent; }
+    .key.template-key { font-size: 16px; font-weight: 600; color: var(--accent); }
     .toast {
       position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 32px);
       transform: translateX(-50%) translateY(16px); background: var(--ink); color: var(--bg);
@@ -98,6 +99,7 @@
     (function () {
       "use strict";
       var CATS = [
+        ["Templates", "TEMPLATE_FRACTION TEMPLATE_POWER TEMPLATE_SUB TEMPLATE_INT TEMPLATE_SUM TEMPLATE_SQRT TEMPLATE_LIM TEMPLATE_MATRIX"],
         ["Greek", "α β γ δ ε ζ η θ ι κ λ μ ν ξ π ρ σ τ φ χ ψ ω"],
         ["Greek caps", "Α Β Γ Δ Θ Λ Ξ Π Σ Φ Ψ Ω"],
         ["Operators", "+ − × ÷ ± ∓ ⋅ ∗ ∘ √ ∛ ∞ ∂ ∇"],
@@ -107,8 +109,20 @@
         ["Logic", "∀ ∃ ∧ ∨ ¬ ∴ ∵"],
         ["Superscripts", "⁰ ¹ ² ³ ⁴ ⁵ ⁶ ⁷ ⁸ ⁹ ⁺ ⁻ ⁿ ˣ"],
         ["Subscripts", "₀ ₁ ₂ ₃ ₄ ₅ ₆ ₇ ₈ ₉ ₊ ₋ ₓ"],
+        ["Constants", "π e φ γ c h ħ k N_A e G ε₀ μ₀ m_e m_p R"],
+        ["Units", "m kg s A K mol cd Hz N Pa J W C V F Ω S Wb T H eV Å"],
         ["Misc", "° ′ ″ · … □ ∠ ⊥ ∥ △ □ ∅"]
       ];
+      var TEMPLATES = {
+        "TEMPLATE_FRACTION": { label: "a/b", insert: "()/()" },
+        "TEMPLATE_POWER": { label: "xⁿ", insert: "^()" },
+        "TEMPLATE_SUB": { label: "xₙ", insert: "_()" },
+        "TEMPLATE_INT": { label: "∫", insert: "int_()^() " },
+        "TEMPLATE_SUM": { label: "∑", insert: "sum_()^() " },
+        "TEMPLATE_SQRT": { label: "√", insert: "sqrt()" },
+        "TEMPLATE_LIM": { label: "lim", insert: "lim_(->)" },
+        "TEMPLATE_MATRIX": { label: "[ ]", insert: "[[,],[,]]" }
+      };
       var ASCII_MAP = {
         "α":"alpha","β":"beta","γ":"gamma","δ":"delta","ε":"epsilon","ζ":"zeta",
         "η":"eta","θ":"theta","ι":"iota","κ":"kappa","λ":"lambda","μ":"mu",
@@ -124,6 +138,7 @@
         "→":"->","←":"<-","↑":"^","↓":"v","⇒":"=>","⇐":"<=","⇔":"<=>","↦":"|->",
         "∫":"int ","∬":"iint ","∭":"iiint ","∮":"oint ","∑":"sum ","∏":"prod ","lim":"lim ",
         "∀":"forall ","∃":"exists ","∧":"&&","∨":"||","¬":"!","∴":"therefore ","∵":"because ",
+        "ħ":"hbar ","ε₀":"epsilon_0","μ₀":"mu_0","φ":"phi ","γ":"gamma ",
         "⁰":"^0","¹":"^1","²":"^2","³":"^3","⁴":"^4","⁵":"^5","⁶":"^6","⁷":"^7",
         "⁸":"^8","⁹":"^9","⁺":"^+","⁻":"^-","ⁿ":"^n","ˣ":"^x",
         "₀":"_0","₁":"_1","₂":"_2","₃":"_3","₄":"_4","₅":"_5","₆":"_6","₇":"_7",
@@ -154,14 +169,22 @@
         grid.className = "grid";
         cat[1].split(" ").forEach(function (sym) {
           if (!sym) return;
+          var isTemplate = TEMPLATES[sym];
           var b = document.createElement("button");
           b.type = "button";
-          b.className = "key";
-          b.textContent = sym;
-          b.setAttribute("aria-label", "Insert " + sym);
+          b.className = "key" + (isTemplate ? " template-key" : "");
+          b.textContent = isTemplate ? TEMPLATES[sym].label : sym;
+          b.setAttribute("aria-label", "Insert " + (isTemplate ? TEMPLATES[sym].label : sym));
           b.addEventListener("click", function () {
-            out.value += (mode === "ascii" && ASCII_MAP[sym]) ? ASCII_MAP[sym] : sym;
+            var ins = isTemplate ? TEMPLATES[sym].insert
+              : (mode === "ascii" && ASCII_MAP[sym]) ? ASCII_MAP[sym] : sym;
+            var start = out.selectionStart || out.value.length;
+            var end = out.selectionEnd || out.value.length;
+            out.value = out.value.slice(0, start) + ins + out.value.slice(end);
+            var cursor = start + ins.indexOf("()") + 1;
+            if (ins.indexOf("()") === -1) cursor = start + ins.length;
             out.focus();
+            try { out.setSelectionRange(cursor, cursor); } catch (e) {}
           });
           grid.appendChild(b);
         });
