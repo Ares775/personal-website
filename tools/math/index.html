@@ -9,6 +9,8 @@
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%231d1d1f'/%3E%3Ctext x='32' y='45' font-family='-apple-system,Helvetica,sans-serif' font-size='36' font-weight='600' fill='%23ffffff' text-anchor='middle'%3E∑%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <style>
     :root {
       --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
@@ -65,6 +67,13 @@
     }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     .hint { color: var(--ink-2); font-size: 13px; margin-top: 24px; line-height: 1.6; }
+    .preview-wrap {
+      background: var(--bg-alt); border: 1px solid var(--hairline); border-radius: 12px;
+      padding: 16px; margin-bottom: 16px; overflow-x: auto;
+    }
+    .preview-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-2); margin-bottom: 8px; }
+    #preview { font-size: 20px; color: var(--ink); min-height: 28px; }
+    #preview .katex-error { color: #c00; font-size: 14px; }
     .mode-row { display: flex; gap: 8px; margin-bottom: 16px; }
     .mode-btn {
       font-family: var(--font); font-size: 14px; font-weight: 600; color: var(--ink-2);
@@ -80,6 +89,7 @@
   <div class="mode-row" role="group" aria-label="Symbol mode">
     <button class="mode-btn active" id="modeUni" type="button">Unicode</button>
     <button class="mode-btn" id="modeAscii" type="button">ASCII</button>
+    <button class="mode-btn" id="modeLatex" type="button">LaTeX</button>
   </div>
 
   <div class="compose">
@@ -88,6 +98,11 @@
       <button class="btn" id="copyBtn" type="button">Copy</button>
       <button class="btn ghost" id="clearBtn" type="button" aria-label="Clear">✕</button>
     </div>
+  </div>
+
+  <div class="preview-wrap" id="previewWrap" hidden>
+    <div class="preview-label">Preview</div>
+    <div id="preview"></div>
   </div>
 
   <div id="board"></div>
@@ -122,6 +137,46 @@
         "TEMPLATE_SQRT": { label: "√", insert: "sqrt()" },
         "TEMPLATE_LIM": { label: "lim", insert: "lim_(->)" },
         "TEMPLATE_MATRIX": { label: "[ ]", insert: "[[,],[,]]" }
+      };
+      var LATEX_MAP = {
+        "α":"\\alpha ","β":"\\beta ","γ":"\\gamma ","δ":"\\delta ","ε":"\\epsilon ",
+        "ζ":"\\zeta ","η":"\\eta ","θ":"\\theta ","ι":"\\iota ","κ":"\\kappa ",
+        "λ":"\\lambda ","μ":"\\mu ","ν":"\\nu ","ξ":"\\xi ","π":"\\pi ",
+        "ρ":"\\rho ","σ":"\\sigma ","τ":"\\tau ","φ":"\\phi ","χ":"\\chi ",
+        "ψ":"\\psi ","ω":"\\omega ",
+        "Α":"A","Β":"B","Γ":"\\Gamma ","Δ":"\\Delta ","Θ":"\\Theta ","Λ":"\\Lambda ",
+        "Ξ":"\\Xi ","Π":"\\Pi ","Σ":"\\Sigma ","Φ":"\\Phi ","Ψ":"\\Psi ","Ω":"\\Omega ",
+        "+":"+","−":"-","×":"\\times ","÷":"\\div ","±":"\\pm ","∓":"\\mp ",
+        "⋅":"\\cdot ","∗":"*","∘":"\\circ ","√":"\\sqrt{}","∛":"\\sqrt[3]{}",
+        "∞":"\\infty ","∂":"\\partial ","∇":"\\nabla ",
+        "=":"=","≠":"\\neq ","≈":"\\approx ","≡":"\\equiv ","≤":"\\leq ","≥":"\\geq ",
+        "<":"<",">":">","≪":"\\ll ","≫":"\\gg ","∼":"\\sim ","∝":"\\propto ",
+        "∈":"\\in ","∉":"\\notin ","⊂":"\\subset ","⊃":"\\supset ",
+        "⊆":"\\subseteq ","⊇":"\\supseteq ",
+        "→":"\\to ","←":"\\gets ","↑":"\\uparrow ","↓":"\\downarrow ",
+        "⇒":"\\Rightarrow ","⇐":"\\Leftarrow ","⇔":"\\Leftrightarrow ","↦":"\\mapsto ",
+        "∫":"\\int ","∬":"\\iint ","∭":"\\iiint ","∮":"\\oint ","∑":"\\sum ",
+        "∏":"\\prod ","lim":"\\lim ",
+        "∀":"\\forall ","∃":"\\exists ","∧":"\\land ","∨":"\\lor ","¬":"\\neg ",
+        "∴":"\\therefore ","∵":"\\because ",
+        "⁰":"^0","¹":"^1","²":"^2","³":"^3","⁴":"^4","⁵":"^5","⁶":"^6","⁷":"^7",
+        "⁸":"^8","⁹":"^9","⁺":"^+","⁻":"^-","ⁿ":"^n","ˣ":"^x",
+        "₀":"_0","₁":"_1","₂":"_2","₃":"_3","₄":"_4","₅":"_5","₆":"_6","₇":"_7",
+        "₈":"_8","₉":"_9","₊":"_+","₋":"_-","ₓ":"_x",
+        "°":"^\\circ ","′":"'","″":"''","·":"\\cdot ","…":"\\dots ",
+        "□":"\\square ","∠":"\\angle ","⊥":"\\perp ","∥":"\\parallel ",
+        "△":"\\triangle ","∅":"\\varnothing ",
+        "ε₀":"\\varepsilon_0","μ₀":"\\mu_0","ħ":"\\hbar "
+      };
+      var LATEX_TEMPLATES = {
+        "TEMPLATE_FRACTION": "\\frac{}{}",
+        "TEMPLATE_POWER": "^{}",
+        "TEMPLATE_SUB": "_{}",
+        "TEMPLATE_INT": "\\int_{}^{}",
+        "TEMPLATE_SUM": "\\sum_{}^{}",
+        "TEMPLATE_SQRT": "\\sqrt{}",
+        "TEMPLATE_LIM": "\\lim_{\\to}",
+        "TEMPLATE_MATRIX": "\\begin{bmatrix},\\\\,\\end{bmatrix}"
       };
       var ASCII_MAP = {
         "α":"alpha","β":"beta","γ":"gamma","δ":"delta","ε":"epsilon","ζ":"zeta",
@@ -176,8 +231,10 @@
           b.textContent = isTemplate ? TEMPLATES[sym].label : sym;
           b.setAttribute("aria-label", "Insert " + (isTemplate ? TEMPLATES[sym].label : sym));
           b.addEventListener("click", function () {
-            var ins = isTemplate ? TEMPLATES[sym].insert
-              : (mode === "ascii" && ASCII_MAP[sym]) ? ASCII_MAP[sym] : sym;
+            var ins = isTemplate
+              ? (mode === "latex" && LATEX_TEMPLATES[sym] ? LATEX_TEMPLATES[sym] : TEMPLATES[sym].insert)
+              : mode === "latex" && LATEX_MAP[sym] ? LATEX_MAP[sym]
+              : mode === "ascii" && ASCII_MAP[sym] ? ASCII_MAP[sym] : sym;
             var start = out.selectionStart || out.value.length;
             var end = out.selectionEnd || out.value.length;
             out.value = out.value.slice(0, start) + ins + out.value.slice(end);
@@ -210,9 +267,32 @@
         mode = m;
         modeUni.classList.toggle("active", m === "unicode");
         modeAscii.classList.toggle("active", m === "ascii");
+        modeLatex.classList.toggle("active", m === "latex");
+        renderPreview();
       }
+      var modeLatex = document.getElementById("modeLatex");
       modeUni.addEventListener("click", function () { setMode("unicode"); });
       modeAscii.addEventListener("click", function () { setMode("ascii"); });
+      modeLatex.addEventListener("click", function () { setMode("latex"); });
+
+      var previewWrap = document.getElementById("previewWrap");
+      var preview = document.getElementById("preview");
+      var renderTimer = null;
+      function renderPreview() {
+        clearTimeout(renderTimer);
+        renderTimer = setTimeout(function () {
+          var tex = out.value.trim();
+          var show = mode === "latex" && tex.length > 0 && typeof katex !== "undefined";
+          previewWrap.hidden = !show;
+          if (!show) return;
+          try {
+            katex.render(tex, preview, { throwOnError: false, displayMode: true });
+          } catch (e) {
+            preview.innerHTML = '<span class="katex-error">Preview unavailable</span>';
+          }
+        }, 250);
+      }
+      out.addEventListener("input", renderPreview);
 
       document.getElementById("copyBtn").addEventListener("click", function () {
         if (!out.value) { showToast("Nothing to copy"); return; }
