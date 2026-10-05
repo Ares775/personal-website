@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Tools — Ares</title>
+  <meta name="description" content="Small, useful tools built by Ares — starting with Math Keys, a tap-to-copy symbol board for math and physics." />
+
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Tools — Ares" />
+  <meta property="og:description" content="Small, useful tools built by Ares." />
+  <meta name="twitter:card" content="summary" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%231d1d1f'/%3E%3Ctext x='32' y='45' font-family='-apple-system,Helvetica,sans-serif' font-size='36' font-weight='600' fill='%23ffffff' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+
+  <!-- Set theme before first paint to avoid a flash of the wrong surface. -->
+  <script>
+    (function () {
+      try {
+        var mode = localStorage.getItem("theme") || "auto";
+        var dark = mode === "dark" ||
+          (mode === "auto" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+        document.documentElement.classList.toggle("theme-dark", dark);
+        document.documentElement.dataset.theme = mode;
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="stylesheet" href="/styles.v3.css" />
+  <noscript><style>.reveal{opacity:1 !important;transform:none !important}</style></noscript>
+  <style>
+    .tool-icon {
+      display: flex; align-items: center; justify-content: center;
+      aspect-ratio: 16 / 10;
+      font-size: 72px; font-weight: 600;
+      background: linear-gradient(135deg, var(--surface), var(--bg-alt));
+      color: var(--accent-ink);
+      user-select: none;
+    }
+    .tool-soon { opacity: .55; }
+    .tool-soon .cc-count { color: var(--ink-2); }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="brand" href="/" aria-label="Ares — home">
+        <span class="brand-mark" aria-hidden="true">A</span>
+        <span class="brand-name">Ares</span>
+      </a>
+
+      <nav class="nav-links" id="navLinks" aria-label="Primary">
+        <a href="/#about">About</a>
+        <a href="/#research">Research</a>
+        <a href="/#builds">Builds</a>
+        <a href="/#interests">Interests</a>
+        <a href="/gallery/">Life &amp; Travel</a>
+        <a href="/portfolio/">Portfolio</a>
+        <a href="/tools/" class="active" aria-current="page">Tools</a>
+        <a href="/#contact">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="icon-btn theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/>
+            <g stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <line x1="12" y1="2.5" x2="12" y2="5.5"/><line x1="12" y1="18.5" x2="12" y2="21.5"/>
+              <line x1="2.5" y1="12" x2="5.5" y2="12"/><line x1="18.5" y1="12" x2="21.5" y2="12"/>
+              <line x1="5.2" y1="5.2" x2="7.3" y2="7.3"/><line x1="16.7" y1="16.7" x2="18.8" y2="18.8"/>
+              <line x1="5.2" y1="18.8" x2="7.3" y2="16.7"/><line x1="16.7" y1="7.3" x2="18.8" y2="5.2"/>
+            </g>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M20.4 14.2A8.5 8.5 0 0 1 9.8 3.6a8.5 8.5 0 1 0 10.6 10.6Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <button class="icon-btn menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <g stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/>
+            </g>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <span id="top" class="anchor"></span>
+
+    <section class="section" aria-labelledby="tools-title" style="padding-top: calc(var(--nav-h) + 84px); padding-bottom: 72px;">
+      <p class="section-label reveal">Tools</p>
+      <h1 id="tools-title" class="statement reveal">Small tools,<br />built for real use.</h1>
+      <p class="lede reveal" style="--d:.1s">Little utilities I build for myself — and share in case they're useful to you too. Free, no sign-up, works in the browser.</p>
+    </section>
+
+    <section class="section" aria-label="Tools" style="padding-top: 0;">
+      <div class="collections">
+        <a class="collection-card reveal" href="/tools/math/">
+          <div class="tool-icon" aria-hidden="true">∑</div>
+          <div class="cc-body">
+            <p class="cc-count">Live</p>
+            <h3>Math Keys</h3>
+            <p>A tap-to-copy symbol board for math and physics — Greek letters, operators, arrows, calculus, logic, equation templates, constants and units. Switch between Unicode and ASCII with one tap, then paste anywhere.</p>
+          </div>
+        </a>
+        <div class="collection-card tool-soon reveal" style="--d:.08s" aria-disabled="true">
+          <div class="tool-icon" aria-hidden="true">…</div>
+          <div class="cc-body">
+            <p class="cc-count">Coming soon</p>
+            <h3>More on the way</h3>
+            <p>New tools land here as they're built. If there's a small utility you wish existed, feel free to suggest it.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>© <span id="year">2026</span> Ares</span>
+    <span>Designed &amp; built from scratch</span>
+  </footer>
+
+  <script src="/script.v3.js"></script>
+
+</body>
+</html>
