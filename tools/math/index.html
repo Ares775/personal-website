@@ -65,6 +65,11 @@
     }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     .hint { color: var(--ink-2); font-size: 13px; margin-top: 24px; line-height: 1.6; }
+    .back-link {
+      display: inline-block; font-size: 15px; font-weight: 600; color: var(--accent);
+      text-decoration: none; margin-bottom: 12px;
+    }
+    .back-link:active { opacity: .6; }
     .mode-row { display: flex; gap: 8px; margin-bottom: 16px; }
     .mode-btn {
       font-family: var(--font); font-size: 14px; font-weight: 600; color: var(--ink-2);
@@ -75,6 +80,7 @@
   </style>
 </head>
 <body>
+  <a class="back-link" href="/tools/">&larr; Tools</a>
   <h1>Math Keys</h1>
   <p class="sub">Tap a symbol to add it — then copy the whole line into any chat.</p>
   <div class="mode-row" role="group" aria-label="Symbol mode">
