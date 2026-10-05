@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Math Keys — tap to copy</title>
+  <meta name="description" content="Tap-to-copy math symbols for chat and notes. Free, no install." />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%231d1d1f'/%3E%3Ctext x='32' y='45' font-family='-apple-system,Helvetica,sans-serif' font-size='36' font-weight='600' fill='%23ffffff' text-anchor='middle'%3E∑%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+      --bg: #ffffff; --bg-alt: #f5f5f7; --ink: #1d1d1f; --ink-2: #6e6e73;
+      --hairline: rgba(0,0,0,.1); --accent: #0071e3; --key-bg: #f5f5f7;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #000000; --bg-alt: #1d1d1f; --ink: #f5f5f7; --ink-2: #a1a1a6;
+        --hairline: rgba(255,255,255,.12); --accent: #2997ff; --key-bg: #1d1d1f;
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body {
+      font-family: var(--font); background: var(--bg); color: var(--ink);
+      min-height: 100dvh; padding: calc(env(safe-area-inset-top, 0px) + 20px) 16px calc(env(safe-area-inset-bottom, 0px) + 20px);
+      max-width: 720px; margin: 0 auto;
+    }
+    h1 { font-size: 22px; letter-spacing: -0.02em; margin-bottom: 4px; }
+    .sub { color: var(--ink-2); font-size: 14px; margin-bottom: 16px; }
+    .compose {
+      position: sticky; top: 0; z-index: 10; background: var(--bg);
+      padding: 12px 0; border-bottom: 1px solid var(--hairline); margin-bottom: 16px;
+    }
+    .compose-row { display: flex; gap: 8px; }
+    #out {
+      flex: 1; font-family: var(--font); font-size: 20px; color: var(--ink);
+      background: var(--bg-alt); border: 1px solid var(--hairline); border-radius: 12px;
+      padding: 12px 14px; min-height: 52px; outline: none; resize: none;
+    }
+    .btn {
+      border: none; border-radius: 12px; padding: 0 18px; font-size: 16px; font-weight: 600;
+      background: var(--accent); color: #fff; cursor: pointer; min-height: 52px;
+    }
+    .btn:active { opacity: .75; }
+    .btn.ghost { background: var(--bg-alt); color: var(--ink); border: 1px solid var(--hairline); }
+    .cat { margin-bottom: 20px; }
+    .cat h2 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-2); margin-bottom: 8px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(52px, 1fr)); gap: 8px; }
+    .key {
+      font-family: var(--font); font-size: 22px; color: var(--ink);
+      background: var(--key-bg); border: 1px solid var(--hairline); border-radius: 12px;
+      min-height: 52px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: transform .08s ease, background .15s ease;
+      user-select: none; -webkit-user-select: none;
+    }
+    .key:active { transform: scale(.93); background: var(--accent); color: #fff; border-color: transparent; }
+    .toast {
+      position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 32px);
+      transform: translateX(-50%) translateY(16px); background: var(--ink); color: var(--bg);
+      font-size: 15px; font-weight: 600; padding: 10px 20px; border-radius: 999px;
+      opacity: 0; pointer-events: none; transition: opacity .2s ease, transform .2s ease; z-index: 50;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .hint { color: var(--ink-2); font-size: 13px; margin-top: 24px; line-height: 1.6; }
+  </style>
+</head>
+<body>
+  <h1>Math Keys</h1>
+  <p class="sub">Tap a symbol to add it — then copy the whole line into any chat.</p>
+
+  <div class="compose">
+    <div class="compose-row">
+      <textarea id="out" rows="1" placeholder="Tap symbols to build…" aria-label="Composed math"></textarea>
+      <button class="btn" id="copyBtn" type="button">Copy</button>
+      <button class="btn ghost" id="clearBtn" type="button" aria-label="Clear">✕</button>
+    </div>
+  </div>
+
+  <div id="board"></div>
+
+  <p class="hint">Tip: on iPhone, open this page in Safari → Share → Add to Home Screen. It then works like an app, no install needed.</p>
+  <div class="toast" id="toast">Copied</div>
+
+  <script>
+    (function () {
+      "use strict";
+      var CATS = [
+        ["Greek", "α β γ δ ε ζ η θ ι κ λ μ ν ξ π ρ σ τ φ χ ψ ω"],
+        ["Greek caps", "Α Β Γ Δ Θ Λ Ξ Π Σ Φ Ψ Ω"],
+        ["Operators", "+ − × ÷ ± ∓ ⋅ ∗ ∘ √ ∛ ∞ ∂ ∇"],
+        ["Relations", "= ≠ ≈ ≡ ≤ ≥ < > ≪ ≫ ∼ ∝ ∈ ∉ ⊂ ⊃ ⊆ ⊇"],
+        ["Arrows", "→ ← ↑ ↓ ⇒ ⇐ ⇔ ↦"],
+        ["Calculus", "∫ ∬ ∭ ∮ ∑ ∏ lim"],
+        ["Logic", "∀ ∃ ∧ ∨ ¬ ∴ ∵"],
+        ["Superscripts", "⁰ ¹ ² ³ ⁴ ⁵ ⁶ ⁷ ⁸ ⁹ ⁺ ⁻ ⁿ ˣ"],
+        ["Subscripts", "₀ ₁ ₂ ₃ ₄ ₅ ₆ ₇ ₈ ₉ ₊ ₋ ₓ"],
+        ["Misc", "° ′ ″ · … □ ∠ ⊥ ∥ △ □ ∅"]
+      ];
+      var board = document.getElementById("board");
+      var out = document.getElementById("out");
+      var toast = document.getElementById("toast");
+      var toastTimer = null;
+
+      function showToast(msg) {
+        toast.textContent = msg;
+        toast.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () { toast.classList.remove("show"); }, 1200);
+      }
+
+      CATS.forEach(function (cat) {
+        var wrap = document.createElement("div");
+        wrap.className = "cat";
+        var h = document.createElement("h2");
+        h.textContent = cat[0];
+        wrap.appendChild(h);
+        var grid = document.createElement("div");
+        grid.className = "grid";
+        cat[1].split(" ").forEach(function (sym) {
+          if (!sym) return;
+          var b = document.createElement("button");
+          b.type = "button";
+          b.className = "key";
+          b.textContent = sym;
+          b.setAttribute("aria-label", "Insert " + sym);
+          b.addEventListener("click", function () {
+            out.value += sym;
+            out.focus();
+          });
+          grid.appendChild(b);
+        });
+        wrap.appendChild(grid);
+        board.appendChild(wrap);
+      });
+
+      function copyText(t, okMsg) {
+        function done() { showToast(okMsg || "Copied"); }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(t).then(done, function () { fallback(); });
+        } else { fallback(); }
+        function fallback() {
+          out.value = t; out.select();
+          try { document.execCommand("copy"); } catch (e) {}
+          done();
+        }
+      }
+
+      document.getElementById("copyBtn").addEventListener("click", function () {
+        if (!out.value) { showToast("Nothing to copy"); return; }
+        copyText(out.value, "Copied — paste it anywhere");
+      });
+      document.getElementById("clearBtn").addEventListener("click", function () {
+        out.value = "";
+        out.focus();
+      });
+    })();
+  </script>
+</body>
+</html>
