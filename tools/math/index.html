@@ -64,11 +64,22 @@
     }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     .hint { color: var(--ink-2); font-size: 13px; margin-top: 24px; line-height: 1.6; }
+    .mode-row { display: flex; gap: 8px; margin-bottom: 16px; }
+    .mode-btn {
+      font-family: var(--font); font-size: 14px; font-weight: 600; color: var(--ink-2);
+      background: var(--bg-alt); border: 1px solid var(--hairline); border-radius: 999px;
+      padding: 8px 20px; cursor: pointer;
+    }
+    .mode-btn.active { background: var(--ink); color: var(--bg); border-color: transparent; }
   </style>
 </head>
 <body>
   <h1>Math Keys</h1>
   <p class="sub">Tap a symbol to add it — then copy the whole line into any chat.</p>
+  <div class="mode-row" role="group" aria-label="Symbol mode">
+    <button class="mode-btn active" id="modeUni" type="button">Unicode</button>
+    <button class="mode-btn" id="modeAscii" type="button">ASCII</button>
+  </div>
 
   <div class="compose">
     <div class="compose-row">
@@ -98,6 +109,29 @@
         ["Subscripts", "₀ ₁ ₂ ₃ ₄ ₅ ₆ ₇ ₈ ₉ ₊ ₋ ₓ"],
         ["Misc", "° ′ ″ · … □ ∠ ⊥ ∥ △ □ ∅"]
       ];
+      var ASCII_MAP = {
+        "α":"alpha","β":"beta","γ":"gamma","δ":"delta","ε":"epsilon","ζ":"zeta",
+        "η":"eta","θ":"theta","ι":"iota","κ":"kappa","λ":"lambda","μ":"mu",
+        "ν":"nu","ξ":"xi","π":"pi","ρ":"rho","σ":"sigma","τ":"tau","φ":"phi",
+        "χ":"chi","ψ":"psi","ω":"omega",
+        "Α":"Alpha","Β":"Beta","Γ":"Gamma","Δ":"Delta","Θ":"Theta","Λ":"Lambda",
+        "Ξ":"Xi","Π":"Pi","Σ":"Sigma","Φ":"Phi","Ψ":"Psi","Ω":"Omega",
+        "+":"+","−":"-","×":"*","÷":"/","±":"+-","∓":"-+","⋅":"*","∗":"*",
+        "∘":"o","√":"sqrt ","∛":"cbrt ","∞":"oo","∂":"d","∇":"nabla",
+        "=":"=","≠":"!=","≈":"~=","≡":"==","≤":"<=", "≥":">=","<":"<",
+        ">":">","≪":"<<","≫":">>","∼":"~","∝":"prop","∈":"in","∉":"notin",
+        "⊂":"sub","⊃":"sup","⊆":"sube","⊇":"supe",
+        "→":"->","←":"<-","↑":"^","↓":"v","⇒":"=>","⇐":"<=","⇔":"<=>","↦":"|->",
+        "∫":"int ","∬":"iint ","∭":"iiint ","∮":"oint ","∑":"sum ","∏":"prod ","lim":"lim ",
+        "∀":"forall ","∃":"exists ","∧":"&&","∨":"||","¬":"!","∴":"therefore ","∵":"because ",
+        "⁰":"^0","¹":"^1","²":"^2","³":"^3","⁴":"^4","⁵":"^5","⁶":"^6","⁷":"^7",
+        "⁸":"^8","⁹":"^9","⁺":"^+","⁻":"^-","ⁿ":"^n","ˣ":"^x",
+        "₀":"_0","₁":"_1","₂":"_2","₃":"_3","₄":"_4","₅":"_5","₆":"_6","₇":"_7",
+        "₈":"_8","₉":"_9","₊":"_+","₋":"_-","ₓ":"_x",
+        "°":"deg ","′":"'","″":'"',"·":"*","…":"...","□":"[]","∠":"angle ",
+        "⊥":"perp ","∥":"||","△":"triangle ","∅":"empty"
+      };
+      var mode = "unicode";
       var board = document.getElementById("board");
       var out = document.getElementById("out");
       var toast = document.getElementById("toast");
@@ -126,7 +160,7 @@
           b.textContent = sym;
           b.setAttribute("aria-label", "Insert " + sym);
           b.addEventListener("click", function () {
-            out.value += sym;
+            out.value += (mode === "ascii" && ASCII_MAP[sym]) ? ASCII_MAP[sym] : sym;
             out.focus();
           });
           grid.appendChild(b);
@@ -146,6 +180,16 @@
           done();
         }
       }
+
+      var modeUni = document.getElementById("modeUni");
+      var modeAscii = document.getElementById("modeAscii");
+      function setMode(m) {
+        mode = m;
+        modeUni.classList.toggle("active", m === "unicode");
+        modeAscii.classList.toggle("active", m === "ascii");
+      }
+      modeUni.addEventListener("click", function () { setMode("unicode"); });
+      modeAscii.addEventListener("click", function () { setMode("ascii"); });
 
       document.getElementById("copyBtn").addEventListener("click", function () {
         if (!out.value) { showToast("Nothing to copy"); return; }
